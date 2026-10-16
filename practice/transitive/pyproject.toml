@@ -1,0 +1,22 @@
+[project]
+name = "charging-transitive-exercise"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi==0.116.1",
+    "python-multipart==0.0.32",
+]
+
+[tool.uv]
+package = false
+exclude-newer = "2026-10-07T00:00:00Z"
+
+[tool.pytest.ini_options]
+testpaths = ["test_exercise.py"]
+pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "httpx==0.28.1",
+    "pytest==9.1.1",
+]

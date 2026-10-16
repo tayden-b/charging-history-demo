@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChargeLedger | Remediation lab</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="training-banner">Synthetic training fixture. Known findings are intentional. Not Lucid software. Never deploy publicly.</div>
+  <header>
+    <div><div class="eyebrow">CONNECTED SERVICES / ENGINEERING LAB</div><h1>ChargeLedger<span> / charging history</span></h1></div>
+    <label class="identity-label" for="actor">Test identity <select id="actor"><option value="alice">Alice / vehicle A</option><option value="bob">Bob / vehicle B</option></select></label>
+  </header>
+  <main>
+    <section class="intro"><div><span class="pill">REPRESENTATIVE PYTHON SERVICE</span><h2>Small changes. Inspectable evidence.</h2><p>View charging records, import a CSV, and follow the API behavior before and after a remediation.</p></div><div class="environment"><span class="status-dot"></span><span id="connection">Connecting to local API</span><small id="versions"></small></div></section>
+    <section class="metrics" aria-label="Current user's totals">
+      <div class="metric"><span>Sessions</span><strong id="session-count">—</strong><small>For the selected test identity</small></div>
+      <div class="metric"><span>Energy delivered</span><strong id="energy-total">—</strong><small>Stored as integer watt-hours</small></div>
+      <div class="metric"><span>Charging cost</span><strong id="cost-total">—</strong><small>Synthetic USD amounts</small></div>
+    </section>
+    <div class="workspace">
+      <section class="card records"><div class="card-heading"><div><span class="eyebrow">READ</span><h3>Your charging sessions</h3></div><button id="refresh" class="secondary">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Session</th><th>Charged at</th><th>Energy</th><th>Cost</th></tr></thead><tbody id="session-rows"></tbody></table></div><p class="muted">The list is scoped to the selected identity. Individual record access is a separate API path.</p></section>
+      <section class="card"><span class="eyebrow">INVESTIGATE</span><h3>Inspect a record</h3><p>Request a record by ID and inspect the actual response.</p><form id="lookup-form"><label for="session-id">Session ID</label><div class="input-row"><input id="session-id" value="CHG-1001" pattern="CHG-[0-9]{4,6}" required><button>Look up</button></div></form><div class="response-heading"><span>API response</span><span id="lookup-status" class="response-status">Not requested</span></div><pre id="lookup-output" aria-live="polite">Choose a record to inspect.</pre></section>
+      <section class="card"><span class="eyebrow">IMPORT</span><h3>Upload charging history</h3><p>CSV uploads exercise the multipart parser and application validation. Records are assigned to the selected identity.</p><form id="upload-form"><label for="csv-file">CSV file · up to 100 rows / 256 KiB</label><input id="csv-file" type="file" accept=".csv,text/csv" required><div class="upload-actions"><button>Import CSV</button><a href="/examples/charging-upload.csv" download>Download sample</a></div></form><p id="upload-result" role="status" aria-live="polite"></p><details><summary>CSV columns</summary><code>session_id,charged_at,energy_kwh,amount_usd</code></details></section>
+      <section class="card evidence"><span class="eyebrow">REVIEW</span><h3>The evidence lives with the change</h3><ol><li>Confirm the finding and baseline.</li><li>Inspect the bounded code or dependency change.</li><li>Check tests, dependency audit, and CI output.</li><li>Review limitations before approving.</li></ol><p>No result on this page represents a security certification. Use the real session logs and PR checks.</p><a href="/openapi.json" target="_blank" rel="noopener">Inspect API schema</a></section>
+    </div>
+    <div id="page-error" role="alert" hidden></div>
+  </main>
+  <footer><span>In-memory synthetic records. Restarting resets imported data.</span><span>Identity selection is a test stub, not real sign-in.</span></footer>
+</body>
+</html>

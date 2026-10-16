@@ -1,0 +1,12 @@
+[
+  {"id":"SEC-001","title":"Upgrade the vulnerable charging-upload parser","labels":["demo","security","dependency"],"file":"SEC-001-upload-dependency.md","track":"Main demo"},
+  {"id":"SEC-002","title":"Enforce record ownership on charging-session lookup","labels":["demo","security","application-code"],"file":"SEC-002-record-ownership.md","track":"Main demo"},
+  {"id":"SEC-003","title":"Investigate the transitive upload framework advisory","labels":["practice","dependency","backup-scenario"],"file":"SEC-003-transitive-framework.md","track":"Separate backup fixture"},
+  {"id":"TRIAGE-001","title":"Second scanner reports the upload-parser finding","labels":["practice","triage","duplicate-candidate"],"file":"TRIAGE-001-duplicate.md","track":"Triage"},
+  {"id":"TRIAGE-002","title":"Identify the import validation owner before expanding rollout","labels":["practice","triage","needs-owner"],"file":"TRIAGE-002-ownership.md","track":"Customer discovery"},
+  {"id":"FEAT-001","title":"Filter charging history and totals by date range","labels":["practice","feature"],"file":"FEAT-001-date-filter.md","track":"Bounded feature"},
+  {"id":"TEST-001","title":"Verify request-size controls without a Content-Length header","labels":["practice","testing"],"file":"TEST-001-streamed-body.md","track":"Test coverage"},
+  {"id":"MIG-001","title":"Migrate the deprecated HTTP test-client integration","labels":["practice","migration"],"file":"MIG-001-test-client.md","track":"Narrow migration"},
+  {"id":"OPS-001","title":"Demo health endpoint returns 503 in the new environment","labels":["practice","setup"],"file":"OPS-001-startup.md","track":"Environment diagnosis"},
+  {"id":"TRIAGE-003","title":"Charging total appears one hundred times too large","labels":["practice","triage","needs-validation"],"file":"TRIAGE-003-units.md","track":"Validate a bug report"}
+]
