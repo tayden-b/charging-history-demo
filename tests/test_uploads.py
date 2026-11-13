@@ -128,3 +128,25 @@ def test_missing_file(client):
 def test_bad_content_length(client, value):
     response = client.post("/api/imports/csv", headers={**ALICE, "Content-Length": value})
     assert response.status_code == 400
+
+
+def test_upload_epilogue_is_discarded_without_per_byte_warnings(client, caplog):
+    boundary = "chargeledger-boundary"
+    epilogue = b"\r\nignored epilogue"
+    body = (
+        f"--{boundary}\r\n"
+        'Content-Disposition: form-data; name="file"; filename="sessions.csv"\r\n'
+        "Content-Type: text/csv\r\n\r\n"
+        f"{HEADER}{ROW}\r\n"
+        f"--{boundary}--\r\n"
+    ).encode() + epilogue
+    with caplog.at_level("WARNING", logger="python_multipart"):
+        response = client.post(
+            "/api/imports/csv",
+            headers={**ALICE, "Content-Type": f"multipart/form-data; boundary={boundary}"},
+            content=body,
+        )
+    assert response.status_code == 201
+    assert response.json() == {"imported": 1, "session_ids": ["CHG-1003"]}
+    parser_warnings = [r for r in caplog.records if r.name.startswith("python_multipart")]
+    assert parser_warnings == []
