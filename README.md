@@ -108,7 +108,7 @@ The audit gate covers the whole locked runtime graph, so new advisories on packa
 
 Before a rehearsal or demo, run `uv run --locked python -m scripts.audit` on main. The only package with findings should be python-multipart.
 
-If another package shows up: move `[tool.uv] exclude-newer` forward to a date at least 7 days in the past, run `uv lock --upgrade-package <that package>`, confirm no other package moved, re-run the full Validate block, and commit. Never fix python-multipart or the record-ownership gap on main: those are the exercises.
+If another package shows up: move `[tool.uv] exclude-newer` forward to a date at least 7 days in the past, then run `uv lock --upgrade-package <that package>`. Moving the cutoff re-resolves the whole graph, so unrelated packages will float to newer releases too; the change is only correct if `uv.lock` moves just the offender. Compare `git diff uv.lock` and restore every other package's stanza to its previous content (or apply only the option line and that one package's stanza by hand). Then `uv lock --check`, `uv sync --locked`, re-run the full Validate block, and confirm the audit lists python-multipart only before committing. Never fix python-multipart or the record-ownership gap on main: those are the exercises.
 
 Last refreshed: 2026-11-13 (cutoff 2026-11-06; opentelemetry-api 1.45.1 -> 1.45.2 for CVE-2026-126360).
 
