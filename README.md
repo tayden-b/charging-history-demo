@@ -102,6 +102,16 @@ For the cleanest demonstration, remediate SEC-001 first. After a human accepts t
 
 To reset practice, prefer a fresh branch/worktree from a saved baseline. Do not discard uncommitted work, force-push, or reset shared branches. The local server restart resets data only, not code or dependencies.
 
+## Fixture maintenance
+
+The audit gate covers the whole locked runtime graph, so new advisories on packages other than the seeded one will appear over time and make the baseline say more than the exercise intends.
+
+Before a rehearsal or demo, run `uv run --locked python -m scripts.audit` on main. The only package with findings should be python-multipart.
+
+If another package shows up: move `[tool.uv] exclude-newer` forward to a date at least 7 days in the past, run `uv lock --upgrade-package <that package>`, confirm no other package moved, re-run the full Validate block, and commit. Never fix python-multipart or the record-ownership gap on main: those are the exercises.
+
+Last refreshed: 2026-11-13 (cutoff 2026-11-06; opentelemetry-api 1.45.1 -> 1.45.2 for CVE-2026-126360).
+
 ## Limits
 
 There is no real sign-in, persistent database, production authorization infrastructure, external scanner integration, Jira integration, deployment, or fleet-wide proof. GitHub is the deliberate stand-in for the scenario's GitLab/Jira setup. The framework may emit a test-client deprecation warning; MIG-001 is an optional migration exercise, not a reason to suppress warnings.
