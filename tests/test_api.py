@@ -31,10 +31,24 @@ def test_list_is_scoped_to_actor(client):
     assert all(row["owner_id"] == "bob" for row in bob)
 
 
-def test_get_own_record(client):
-    response = client.get("/api/charging-sessions/CHG-1001", headers=ALICE)
+@pytest.mark.parametrize(
+    ("headers", "session_id"),
+    [(ALICE, "CHG-1001"), (BOB, "CHG-2001")],
+)
+def test_get_own_record(client, headers, session_id):
+    response = client.get(f"/api/charging-sessions/{session_id}", headers=headers)
     assert response.status_code == 200
-    assert response.json()["owner_id"] == "alice"
+    assert response.json()["owner_id"] == headers["X-Demo-User"]
+
+
+@pytest.mark.parametrize(
+    ("headers", "session_id"),
+    [(ALICE, "CHG-2001"), (BOB, "CHG-1001")],
+)
+def test_foreign_record_is_not_found(client, headers, session_id):
+    response = client.get(f"/api/charging-sessions/{session_id}", headers=headers)
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Charging session not found."}
 
 
 def test_missing_record_is_404(client):

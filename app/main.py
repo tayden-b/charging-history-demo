@@ -73,7 +73,7 @@ def create_app(*, enabled: bool = False) -> FastAPI:
     @application.get("/api/charging-sessions/{session_id}", response_model=ChargingSession)
     def get_session(session_id: str, actor: Actor, store: Store) -> ChargingSession:
         session = store.get(session_id)
-        if session is None:
+        if session is None or session.owner_id != actor:
             raise HTTPException(status_code=404, detail="Charging session not found.")
         return session
 
